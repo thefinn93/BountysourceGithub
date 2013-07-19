@@ -2,9 +2,12 @@ function issuePage() {
     if($(".bounty").length == 0) {
         function makeBountyBox(issueurl) {
             $.get(issueurl).done(function(data) {
-                //data['bounty_total'];
+                buttontext = "$" + data['bounty_total'];
+                if(data['bounty_total'] == 0.0) {
+                    buttontext = "Set bounty";
+                }
                 $('.discussion-stats')
-                    .append($("<a class=\"state-indicator bounty\" href=\"" + data['frontend_url'] + "\">$" + data['bounty_total'] + "</a>"));
+                    .append($("<a class=\"state-indicator bounty\" href=\"" + data['frontend_url'] + "\">" + buttontext + "</a>"));
             });
         }
         if(localStorage.hasOwnProperty(window.location.href)) {
