@@ -1,5 +1,5 @@
 function issuePage() {
-    if($(".state-indicator .bounty").length == 0) {
+    if($(".bounty").length == 0) {
         $.get("https://api.bountysource.com/search?_method=POST&query=" + encodeURIComponent(window.location.href), {global: false}).done(function(redir) {
             if(redir.hasOwnProperty("redirect_to")) {
                 issueurl = "https://api.bountysource.com" + redir['redirect_to'].replace("#","/");
@@ -43,7 +43,7 @@ function checkPage(a,b,url) {
 };
 
 $(document).ready(function() {
-    checkPage();
+    //checkPage();
     $(window).bind("message", function(e) {
         console.log(e.originalEvent.data);
         if(e.originalEvent.data == "ajaxStop") {
