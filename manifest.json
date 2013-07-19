@@ -1,23 +1,27 @@
 {
-   "content_scripts": [ {
-      "js": [
-        "jquery-2.0.3.min.js",
-        "bountysource.js"
-        ],
-       "css": [
-        "bountysource.css"
-        ],
-      "matches": [ "https://github.com/*/*/*" ]
-   } ],
-   "permissions": [
-    "https://api.bountysource.com/*",
-    "https://github.com/*"
-   ],
-   "web_accessible_resources": [
-    "injected.js"
+    "content_scripts": [
+        {
+        "js": [
+            "jquery-2.0.3.min.js",
+            "bountysource.js"
+            ],
+        "css": [
+            "bountysource.css"
+            ],
+        "matches": [
+            "https://github.com/*/*/*"
+            ]
+        }
     ],
-   "description": "Adds BountySource bounties to github",
-   "name": "Bountysource for GitHub",
-   "version": "0.1",
-   "manifest_version": 2
+    "permissions": [
+        "https://api.bountysource.com/*",
+        "https://github.com/*"
+    ],
+    "web_accessible_resources": [
+        "injected.js"
+    ],
+    "description": "Adds BountySource bounties to github",
+    "name": "Bountysource for GitHub",
+    "version": "0.1",
+    "manifest_version": 2
 }
