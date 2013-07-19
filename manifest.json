@@ -1,0 +1,17 @@
+{
+   "content_scripts": [ {
+      "js": [
+        "jquery-2.0.3.min.js",
+        "bountysource.js"
+        ],
+      "matches": [ "https://github.com/*/*/issues/*" ]
+   } ],
+   "permissions": [
+    "https://api.bountysource.com/*",
+    "https://github.com/*"
+   ],
+   "description": "Adds BountySource bounties to github",
+   "name": "Bountysource for GitHub",
+   "version": "0.1",
+   "manifest_version": 2
+}
