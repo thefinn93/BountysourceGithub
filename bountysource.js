@@ -1,22 +1,23 @@
 function issuePage() {
     if($(".bounty").length == 0) {
-        $(".state-indicator.open")
+        $(".discussion-stats .state-indicator")
             .after($("<a class=\"state-indicator bounty\" href=\"#\"><small>loading bounty</small></a>"));
         function makeBountyBox(issueurl) {
             $.get(issueurl).done(function(data) {
                 buttontext = "$" + data['bounty_total'];
                 if(data['bounty_total'] == 0.0) {
                     buttontext = "Set bounty";
+                } else {
+                    var s = "s"
+                    var backers = data['bounties'].length;
+                    if(backers == 1) {
+                        s = "";
+                    }
+                    $('.discussion-stats').append("<p><strong>" + backers + "</strong> backer" + s + "</p>")
                 }
                 $('.bounty')
                     .text(buttontext)
                     .attr("href", data['frontend_url']);
-                var s = "s"
-                var backers = data['bounties'].length;
-                if(backers == 1) {
-                    s = "";
-                }
-                $('.discussion-stats').append("<p><strong>" + backers + "</strong> backer" + s + "</p>")
             });
         }
         if(localStorage.hasOwnProperty(window.location.href)) {
