@@ -13,6 +13,10 @@
             ]
         }
     ],
+    "icons": {
+        "128": "bountysource-128.png",
+        "48": "bountysource-48.png"
+        },
     "permissions": [
         "https://api.bountysource.com/*",
         "https://github.com/*"
