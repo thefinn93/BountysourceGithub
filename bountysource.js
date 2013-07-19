@@ -1,13 +1,22 @@
 function issuePage() {
     if($(".bounty").length == 0) {
+        $(".state-indicator.open")
+            .after($("<a class=\"state-indicator bounty\" href=\"#\"><small>loading bounty</small></a>"));
         function makeBountyBox(issueurl) {
             $.get(issueurl).done(function(data) {
                 buttontext = "$" + data['bounty_total'];
                 if(data['bounty_total'] == 0.0) {
                     buttontext = "Set bounty";
                 }
-                $('.discussion-stats')
-                    .append($("<a class=\"state-indicator bounty\" href=\"" + data['frontend_url'] + "\">" + buttontext + "</a>"));
+                $('.bounty')
+                    .text(buttontext)
+                    .attr("href", data['frontend_url']);
+                var s = "s"
+                var backers = data['bounties'].length;
+                if(backers == 1) {
+                    s = "";
+                }
+                $('.discussion-stats').append("<p><strong>" + backers + "</strong> backer" + s + "</p>")
             });
         }
         if(localStorage.hasOwnProperty(window.location.href)) {
@@ -47,10 +56,11 @@ function issueList() {
     });
 }
 
+regex = {}
+regex['issuePage'] = /https:\/\/github.com\/.*\/.*\/issues\/[0-9]*/
+regex['issueList'] = /https:\/\/github.com\/.*\/.*\/issues(?!\/).*/
+
 function checkPage(a,b,url) {
-    regex = {}
-    regex['issuePage'] = /https:\/\/github.com\/.*\/.*\/issues\/[0-9]*/
-    regex['issueList'] = /https:\/\/github.com\/.*\/.*\/issues(?!\/).*/
     if(regex['issuePage'].test(window.location.href)) {
         issuePage();
     } else if(regex['issueList'].test(window.location.href)) {
