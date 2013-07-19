@@ -42,4 +42,13 @@ function checkPage(a,b,url) {
 
 $(document).ready(function() {
     checkPage();
+    $(window).bind("message", function(e) {
+        console.log(e.originalEvent.data);
+        if(e.originalEvent.data == "ajaxStop") {
+            checkPage()
+        }
+    });
+    var s = document.createElement('script');
+    s.src = chrome.extension.getURL("injected.js");
+    (document.head||document.documentElement).appendChild(s);
     });

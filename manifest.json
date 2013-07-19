@@ -10,6 +10,9 @@
     "https://api.bountysource.com/*",
     "https://github.com/*"
    ],
+   "web_accessible_resources": [
+    "injected.js"
+    ],
    "description": "Adds BountySource bounties to github",
    "name": "Bountysource for GitHub",
    "version": "0.1",
