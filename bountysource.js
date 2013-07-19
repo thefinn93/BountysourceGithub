@@ -1,33 +1,49 @@
 function issuePage() {
     if($(".bounty").length == 0) {
-        $.get("https://api.bountysource.com/search?_method=POST&query=" + encodeURIComponent(window.location.href), {global: false}).done(function(redir) {
-            if(redir.hasOwnProperty("redirect_to")) {
-                issueurl = "https://api.bountysource.com" + redir['redirect_to'].replace("#","/");
-                $.get(issueurl, {global: false}).done(function(data) {
-                    //data['bounty_total'];
-                    $('.discussion-stats')
-                        .append($("<span class=\"state-indicator bounty\"></span>")
-                        .append($("<a href=\"" + data['frontend_url'] + "\">$" + data['bounty_total'] + "</a>")
-                        .css("color", "#FFFFFF"))
-                        );
-                });
-            }
-        });
+        function makeBountyBox(issueurl) {
+            $.get(issueurl).done(function(data) {
+                //data['bounty_total'];
+                $('.discussion-stats')
+                    .append($("<span class=\"state-indicator bounty\"></span>")
+                    .append($("<a href=\"" + data['frontend_url'] + "\">$" + data['bounty_total'] + "</a>")
+                    .css("color", "#FFFFFF"))
+                    );
+            });
+        }
+        if(localStorage.hasOwnProperty(window.location.href)) {
+            makeBountyBox(localStorage[window.location.href]);
+        } else {
+            $.get("https://api.bountysource.com/search?_method=POST&query=" + encodeURIComponent(window.location.href)).done(function(data) {
+                if(data.hasOwnProperty("redirect_to")) {
+                    issueurl = "https://api.bountysource.com" + data['redirect_to'].replace("#","/");
+                    localStorage[window.location.href] = issueurl;
+                    makeBountyBox(issueurl);
+                }
+            });
+        }
     }
 }
 
 function issueList() {
     $('.issue-list-item').each(function(index) {
         var issue = $(this.getElementsByTagName("li")[0]);
-        var issueURL = this.getElementsByClassName("js-navigation-open")[0].href;
-        $.get("https://api.bountysource.com/search?_method=POST&query=" + encodeURIComponent(issueURL), {global: false}).done(function(redir) {
-            if(redir.hasOwnProperty("redirect_to")) {
-                var issueurl = "https://api.bountysource.com" + redir['redirect_to'].replace("#","/");
-                $.get(issueurl, {global: false}).done(function(data) {
-                    issue.append("<a href=\"" + data['frontend_url'] + "\">$" + data['bounty_total'] + " bounty</a>");
-                });
-            }
-        });
+        var url = this.getElementsByClassName("js-navigation-open")[0].href;
+        function makeBountyBox(issueurl) {
+            $.get(issueurl).done(function(data) {
+                issue.append("<a href=\"" + data['frontend_url'] + "\">$" + data['bounty_total'] + " bounty</a>");
+            });
+        }
+        if(localStorage.hasOwnProperty(url)) {
+            makeBountyBox(localStorage[url]);
+        } else {
+            $.get("https://api.bountysource.com/search?_method=POST&query=" + encodeURIComponent(url)).done(function(data) {
+                if(data.hasOwnProperty("redirect_to")) {
+                    issueurl = "https://api.bountysource.com" + data['redirect_to'].replace("#","/");
+                    localStorage[url] = issueurl;
+                    makeBountyBox(issueurl);
+                }
+            });
+        }
     });
 }
 
@@ -45,7 +61,6 @@ function checkPage(a,b,url) {
 $(document).ready(function() {
     //checkPage();
     $(window).bind("message", function(e) {
-        console.log(e.originalEvent.data);
         if(e.originalEvent.data == "ajaxStop") {
             checkPage()
         }
