@@ -4,10 +4,7 @@ function issuePage() {
             $.get(issueurl).done(function(data) {
                 //data['bounty_total'];
                 $('.discussion-stats')
-                    .append($("<span class=\"state-indicator bounty\"></span>")
-                    .append($("<a href=\"" + data['frontend_url'] + "\">$" + data['bounty_total'] + "</a>")
-                    .css("color", "#FFFFFF"))
-                    );
+                    .append($("<a class=\"state-indicator bounty\" href=\"" + data['frontend_url'] + "\">$" + data['bounty_total'] + "</a>"));
             });
         }
         if(localStorage.hasOwnProperty(window.location.href)) {

@@ -4,6 +4,9 @@
         "jquery-2.0.3.min.js",
         "bountysource.js"
         ],
+       "css": [
+        "bountysource.css"
+        ],
       "matches": [ "https://github.com/*/*/*" ]
    } ],
    "permissions": [
