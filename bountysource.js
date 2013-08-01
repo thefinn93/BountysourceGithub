@@ -16,11 +16,11 @@ function issuePage() {
             $.get(issueurl).done(function(data) {
                 if(data['bounty_total'] == 0.0) {
                     $('.bounty-left')
-                        .text("No bounty on bountysource")
+                        .text("No bounty on Bountysource ")
                         .append($("<a>")
                             .attr("href", data['frontend_url'])
                             .addClass("minibutton")
-                            .text("Add bounty")
+                            .text("View on Bountysource")
                         )
                 } else {
                     var s = "s"
@@ -31,16 +31,11 @@ function issuePage() {
                     $('.bounty-right')
                         .append("<p><strong>" + backers + "</strong> backer" + s + "</p>")
                     $('.bounty-left')
-                        .text("$" + data['bounty_total'] + " bounty on Bountysource")
-                        .append($("<a>")
-                            .attr("href", data['frontend_url'] + "/bounties")
-                            .addClass("minibutton")
-                            .text("View Bounties")
-                        )
+                        .text("$" + data['bounty_total'] + " bounty on Bountysource ")
                         .append($("<a>")
                             .attr("href", data['frontend_url'])
                             .addClass("minibutton")
-                            .text("Add bounty")
+                            .text("View on Bountysource")
                         )
                 }
             });
