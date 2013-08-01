@@ -1,23 +1,48 @@
 function issuePage() {
     if($(".bounty").length == 0) {
-        $(".discussion-stats .state-indicator")
-            .after($("<a class=\"state-indicator bounty\" href=\"#\"><small>loading bounty</small></a>"));
+        $(".discussion-topic-header").after($("<div></div>")
+            .addClass("discusion-topic-infobar js-infobar bountysource")
+            .append($("<div>")
+                .css("float", "left")
+                .addClass("bounty bounty-left")
+                .text("Loading bounty...")
+            )
+            .append($("<div>")
+                .css("float", "right")
+                .addClass("bounty bounty-right")
+            )
+        )
         function makeBountyBox(issueurl) {
             $.get(issueurl).done(function(data) {
-                buttontext = "$" + data['bounty_total'];
                 if(data['bounty_total'] == 0.0) {
-                    buttontext = "Set bounty";
+                    $('.bounty-left')
+                        .text("No bounty on bountysource")
+                        .append($("<a>")
+                            .attr("href", data['frontend_url'])
+                            .addClass("minibutton")
+                            .text("Add bounty")
+                        )
                 } else {
                     var s = "s"
                     var backers = data['bounties'].length;
                     if(backers == 1) {
                         s = "";
                     }
-                    $('.discussion-stats').append("<p><strong>" + backers + "</strong> backer" + s + "</p>")
+                    $('.bounty-right')
+                        .append("<p><strong>" + backers + "</strong> backer" + s + "</p>")
+                    $('.bounty-left')
+                        .text("$" + data['bounty_total'] + " bounty on Bountysource")
+                        .append($("<a>")
+                            .attr("href", data['frontend_url'] + "/bounties")
+                            .addClass("minibutton")
+                            .text("View Bounties")
+                        )
+                        .append($("<a>")
+                            .attr("href", data['frontend_url'])
+                            .addClass("minibutton")
+                            .text("Add bounty")
+                        )
                 }
-                $('.bounty')
-                    .text(buttontext)
-                    .attr("href", data['frontend_url']);
             });
         }
         if(localStorage.hasOwnProperty(window.location.href)) {
